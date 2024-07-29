@@ -465,7 +465,7 @@ fi
 
 step Formatting hard drive with disko
 ssh_ "$disko_script"
-
+echo skip_reformat
 if [[ ${skip_reformat} == "y" ]]; then
   echo "Skipping disko partitioning (only do mount)."
   ssh_ "$disko_script -m mount"
