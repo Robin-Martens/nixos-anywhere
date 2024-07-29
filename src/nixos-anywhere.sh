@@ -33,6 +33,8 @@ Options:
   after kexec is executed, use a custom ssh port to connect. Defaults to 22
 * --copy-host-keys
   copy over existing /etc/ssh/ssh_host_* host keys to the installation
+* --skip-reformat
+  dont format disks with disko (only mount)
 * --stop-after-disko
   exit after disko formatting, you can then proceed to install manually or some other way
 * --extra-files <path>
@@ -150,6 +152,9 @@ while [[ $# -gt 0 ]]; do
     disk_encryption_keys["$2"]="$3"
     shift
     shift
+    ;;
+  --skip-reformat)
+    skip_reformat=y
     ;;
   --stop-after-disko)
     stop_after_disko=y
@@ -460,6 +465,13 @@ fi
 
 step Formatting hard drive with disko
 ssh_ "$disko_script"
+
+if [[ ${skip_reformat} == "y" ]]; then
+  echo "Skipping disko partitioning (only do mount)."
+  ssh_ "$disko_script -m mount"
+else
+  ssh_ "$disko_script"
+fi
 
 if [[ ${stop_after_disko-n} == "y" ]]; then
   # Should we also do this for `--no-reboot`?
