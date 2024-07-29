@@ -463,22 +463,22 @@ elif [[ ${build_on_remote-n} == "y" ]]; then
   )
 fi
 
-step Formatting hard drive with disko
-ssh_ "$disko_script"
-echo skip_reformat
-if [[ ${skip_reformat} == "y" ]]; then
-  echo "Skipping disko partitioning (only do mount)."
-  ssh_ "$disko_script -m mount"
-else
-  ssh_ "$disko_script"
-fi
-
-if [[ ${stop_after_disko-n} == "y" ]]; then
-  # Should we also do this for `--no-reboot`?
-  echo "WARNING: leaving temporary ssh key at '$ssh_key_dir/nixos-anywhere' to login to the machine" >&2
-  trap - EXIT
-  exit 0
-fi
+# step Formatting hard drive with disko
+# ssh_ "$disko_script"
+# echo "HELLLO!!!: ${skip_reformat}"
+# if [[ ${skip_reformat} == "y" ]]; then
+#   echo "Skipping disko partitioning (only do mount)."
+#   ssh_ "$disko_script -m mount"
+# else
+#   ssh_ "$disko_script"
+# fi
+#
+# if [[ ${stop_after_disko-n} == "y" ]]; then
+#   # Should we also do this for `--no-reboot`?
+#   echo "WARNING: leaving temporary ssh key at '$ssh_key_dir/nixos-anywhere' to login to the machine" >&2
+#   trap - EXIT
+#   exit 0
+# fi
 
 if [[ -n ${nixos_system-} ]]; then
   step Uploading the system closure
